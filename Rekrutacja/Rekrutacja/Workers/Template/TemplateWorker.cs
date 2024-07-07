@@ -1,20 +1,9 @@
 ﻿using Soneta.Business;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Soneta.Kadry;
-using Soneta.KadryPlace;
 using Soneta.Types;
 using Rekrutacja.Workers.Template;
 using Rekrutacja.Operations;
-using Soneta.Kasa.Extensions;
-using Soneta.Business.UI;
-using static Soneta.ETHECR.Connection.SerialPort;
-using Soneta.Tools;
-using Soneta.Core.Extensions;
-using Mono.CSharp;
 using Rekrutacja.Validations;
 using Rekrutacja.Converter;
 
@@ -101,12 +90,10 @@ namespace Rekrutacja.Workers.Template
                             //Zatwierdzamy zmiany wykonane w sesji
                             trans.CommitUI();
                         }
-                            //Zapisujemy zmiany
-                            nowaSesja.Save();
-
-                
-                    }
+                    //Zapisujemy zmiany       
+                    nowaSesja.Save();
                 }
+            }
         }
     }
 }

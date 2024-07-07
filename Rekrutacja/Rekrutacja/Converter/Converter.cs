@@ -1,7 +1,4 @@
-﻿using Soneta.Business;
-using System;
-
-namespace Rekrutacja.Converter
+﻿namespace Rekrutacja.Converter
 {
     internal static class Converter
     {
