@@ -88,7 +88,7 @@ namespace Rekrutacja.Workers.Template
                         //Pobieramy obiekt z Nowo utworzonej sesji
                         var pracownikZSesja = nowaSesja.Get(employee);
 
-                        if (this.Parametry.Figure == eFigure.koło)
+                        if (this.Parametry.Figure == eFigure.koło || this.Parametry.Figure == eFigure.kwadrat)
                             pracownikZSesja.Features["Wynik"] = calculateFigure.CalculateArea(this.Parametry.Figure, new uint[] { this.Parametry.VariableX });
                         else
                             pracownikZSesja.Features["Wynik"] = calculateFigure.CalculateArea(this.Parametry.Figure, new uint[] { this.Parametry.VariableX, this.Parametry.VariableY });

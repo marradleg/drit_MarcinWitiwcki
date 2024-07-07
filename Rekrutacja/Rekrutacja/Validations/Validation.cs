@@ -61,7 +61,7 @@ namespace Rekrutacja.Validations
 
         public bool ValidVariableThanZero(eFigure figure, uint variableX, uint variableY)
         {
-            if (figure == eFigure.koło)
+            if (figure == eFigure.koło || figure == eFigure.kwadrat)
             {
                 if (variableX > 0)
                 {
