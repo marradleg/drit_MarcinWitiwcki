@@ -1,13 +1,7 @@
-﻿using RabbitMQ.Client.Impl;
-using Rekrutacja.Enums;
+﻿using Rekrutacja.Enums;
 using Soneta.Business;
-using Soneta.Business.UI;
-using Soneta.Core.Extensions;
-using Soneta.Generator.Schema;
-using Soneta.Tools;
-using Soneta.Types;
 using System;
-using static Soneta.ETHECR.Connection.SerialPort;
+
 
 
 namespace Rekrutacja.Validations
