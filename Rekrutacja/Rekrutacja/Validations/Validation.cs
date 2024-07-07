@@ -6,6 +6,7 @@ using Soneta.Generator.Schema;
 using Soneta.Tools;
 using Soneta.Types;
 using System;
+using System.Linq;
 using static Soneta.ETHECR.Connection.SerialPort;
 
 
@@ -55,6 +56,34 @@ namespace Rekrutacja.Validations
                 _messageBoxService.Show("Nie można dzielić przez 0");
                 return false;
             }
+            return true;
+        }
+
+        public bool ValidStringToInt(string variable)
+        {
+            string message = $"Wartość string - '{variable}' nie można zamienić na INT.";
+
+            if (string.IsNullOrEmpty(variable))
+            
+                return false;
+            if (variable.Count(c => c == '-' || c == ',' || c == '.') > 1)
+            {
+                _messageBoxService.Show(message);
+                return false;
+            }
+
+            variable = variable.Replace("-", "").Replace(".", "").Replace(",", "");
+
+
+            foreach (char getChar in variable)
+            {
+                if (getChar < '0' || getChar > '9')
+                {
+                    _messageBoxService.Show(message);
+                    return false;
+                }
+            }
+
             return true;
         }
     }

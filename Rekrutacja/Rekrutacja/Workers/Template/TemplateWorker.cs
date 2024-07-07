@@ -16,6 +16,7 @@ using Soneta.Tools;
 using Soneta.Core.Extensions;
 using Mono.CSharp;
 using Rekrutacja.Validations;
+using Rekrutacja.Converter;
 
 //Rejetracja Workera - Pierwszy TypeOf określa jakiego typu ma być wyświetlany Worker, Drugi parametr wskazuje na jakim Typie obiektów będzie wyświetlany Worker
 [assembly: Worker(typeof(TemplateWorker), typeof(Pracownicy))]
@@ -30,18 +31,18 @@ namespace Rekrutacja.Workers.Template
             public Date DateOfCalculation { get; set; }
 
             [Caption("A")]
-            public double VariableX { get; set; }
+            public string VariableX { get; set; }
 
             [Caption("B")]
-            public double VariableY { get; set; }
+            public string VariableY { get; set; }
             [Caption("Operacja")]
             public string Operation{ get; set; }
 
             public TemplateWorkerParametry(Context context) : base(context)
             {
                 this.DateOfCalculation = Date.Today;
-                this.VariableX = 0;
-                this.VariableY = 0;
+                this.VariableX = "0";
+                this.VariableY = "0";
                 this.Operation = "+";
             }
         }
@@ -79,20 +80,24 @@ namespace Rekrutacja.Workers.Template
                 {
                     //Validation Entered Data
                     Validation validation = new Validation(nowaSesja);
-                    if (!validation.ValidOperation(this.Parametry.Operation) ||
-                        !validation.ValidDate(this.Parametry.DateOfCalculation) ||
-                        !validation.ValidDivisionVariable(this.Parametry.Operation, this.Parametry.VariableY))
+
+                    if(!validation.ValidStringToInt(this.Parametry.VariableX) || !validation.ValidStringToInt(this.Parametry.VariableY))
                         break;
 
-                        //Otwieramy Transaction aby można było edytować obiekt z sesji
-                        using (ITransaction trans = nowaSesja.Logout(true))
+                    if (!validation.ValidOperation(this.Parametry.Operation) ||
+                        !validation.ValidDate(this.Parametry.DateOfCalculation) ||
+                        !validation.ValidDivisionVariable(this.Parametry.Operation, this.Parametry.VariableY.ConvertToInt()))
+                            break;
+
+                    //Otwieramy Transaction aby można było edytować obiekt z sesji
+                    using (ITransaction trans = nowaSesja.Logout(true))
                         {
                             //Pobieramy obiekt z Nowo utworzonej sesji
                             var pracownikZSesja = nowaSesja.Get(employee);
                             //Features - są to pola rozszerzające obiekty w bazie danych, dzięki czemu nie jestesmy ogarniczeni to kolumn jakie zostały utworzone przez producenta
                             pracownikZSesja.Features["DataObliczen"] = this.Parametry.DateOfCalculation;
 
-                            pracownikZSesja.Features["Wynik"] = calculator.Calculate(this.Parametry.VariableX, this.Parametry.VariableY, this.Parametry.Operation);
+                            pracownikZSesja.Features["Wynik"] = calculator.Calculate(this.Parametry.VariableX.ConvertToInt(), this.Parametry.VariableY.ConvertToInt(), this.Parametry.Operation);
                             //Zatwierdzamy zmiany wykonane w sesji
                             trans.CommitUI();
                         }
