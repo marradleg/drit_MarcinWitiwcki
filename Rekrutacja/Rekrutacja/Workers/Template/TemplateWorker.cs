@@ -76,9 +76,9 @@ namespace Rekrutacja.Workers.Template
                         var pracownikZSesja = nowaSesja.Get(employee);
 
                         if (this.Parametry.Figure == eFigure.koło || this.Parametry.Figure == eFigure.kwadrat)
-                            pracownikZSesja.Features["Wynik"] = calculateFigure.CalculateArea(this.Parametry.Figure, new uint[] { this.Parametry.VariableX });
+                            pracownikZSesja.Features["Wynik"] = (double)calculateFigure.CalculateArea(this.Parametry.Figure, new uint[] { this.Parametry.VariableX });
                         else
-                            pracownikZSesja.Features["Wynik"] = calculateFigure.CalculateArea(this.Parametry.Figure, new uint[] { this.Parametry.VariableX, this.Parametry.VariableY });
+                            pracownikZSesja.Features["Wynik"] = (double)calculateFigure.CalculateArea(this.Parametry.Figure, new uint[] { this.Parametry.VariableX, this.Parametry.VariableY });
 
 
                         //Zatwierdzamy zmiany wykonane w sesji
